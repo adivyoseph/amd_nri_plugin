@@ -28,7 +28,6 @@ This NRI pluging is targeted at AMD CPU's only for now.
 **Config Profile:** The plugin uses a config file with YAML format
 
 ``
----
 kind: amdNriConfig
 version: 1.00.01
 description: config file for all AMD public cloud instances (VM's). Guest OS
