@@ -27,7 +27,8 @@ This NRI pluging is targeted at AMD CPU's only for now.
 
 **Config Profile:** The plugin uses a config file with YAML format
 
-``
+```
+---
 kind: amdNriConfig
 version: 1.00.01
 description: config file for all AMD public cloud instances (VM's). Guest OS
@@ -64,4 +65,4 @@ profiles:
               cpus: 48-55,112-119
             ccx3:
               cpus: 56-63,120-127
-              ``
+              ```
