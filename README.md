@@ -1,4 +1,10 @@
 # amd_nri_plugin
+
+# NOTE
+
+**This is not an offical AMD project, just experimental one to try different schedualing ideas and share results ans conclusions. It is not intended for production use or seaking contributions.**
+
+
 AMD burstable POD scheduling options on ccx's
 
 
@@ -12,7 +18,7 @@ This NRI pluging is targeted at AMD CPU's only for now.
 
 **Packed:** Allocate all Containers for a POD the same cpuset correlating with a CCX, and evenly distribute the PODs across all CCX's based on spec:resources:cpu:request quanta. whole n or xxm fractional vCPU asks.
 
-**Spread N:** Build a Container cpuset that is distributed based on NUMA (avoid straddling NUMA nodes) and a maximum of N CCX's.
+**Spread N:** Build a Container cpuset that is distributed based on NUMA (avoid straddling NUMA nodes) and a maximum of N CCX's. This might appear a good idea but Linux will still migrate the processes. See futures section for CPU pinning plans.
 
 
 # Future scheduling options:
@@ -20,6 +26,8 @@ This NRI pluging is targeted at AMD CPU's only for now.
 **Exclusive:** Guaranteed CPU QoS, supported with Packed mode. Guranteed PODs aquire CPU's from whole or partial claimed CCX from one direction (affected Burstable PODs beging relocated) across NUMA node and Burstable PODs packed onto the remaing whole CCX's. Support for sidecar Container resource sharing or exclusive co-CCX location can be configured.
 
 **MinPower:** Pack Containers onto the minimum number of CCX. Fill CCX up to 60% before utilizing more CCX's. As Containers are removed and CPU resources freed, rebalance packed CCX's to only use the minimum required. Linux power governor can be applied to un-used CCX, thus saving power while not reducing Container SLA.
+
+**topology discovery** From within a POD/Container the runtime alters some sysFs information. The key alteration in this context is cgroups. There is just one cgroup, the CPU controler cpuset is that assigned to the Container (there are no ther CPUs). This does not change the advertised sysFs topology view, so on cloud instance cannot be relied upon. Plan is to add a NetLink interface to allow applications to discover the CCX mapping for this cpuset. Applications could then make informed decisions on CPU affinty mapping to avoid unecessary Linux (OS) process migrations and to co-locate processes that need to share data objects or state objects.
 
 # Topology learning Options
 
