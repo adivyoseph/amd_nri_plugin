@@ -25,7 +25,7 @@ This NRI pluging is targeted at AMD CPU's only for now.
 
 **SysFs:** This is the default. On bare metal Linux the sysFs information can be trusted.
 
-**Config Profile:** The plugin uses a config file with YAML format location ```/etc/nri/amdccx/config.yaml```. This toplogy profile is taken from the node label and topology is built from profile data, ignore sysFs. Used for public cload instances that do not accurately advertise the underlying physical topology accurately into a guest OS. The etcd node labels are search to find a worker nodes (instance) profile (see config file sample below). 
+**Config Profile:** The plugin uses a config file with YAML format location ```/etc/nri/amdccx/config.yaml```. This toplogy profile is taken from the node label and topology is built from profile data, ignoring sysFs. Used for public cload instances that do not accurately advertise the underlying physical topology into a guest OS. The etcd node labels are searched to find a worker nodes (instance) profile (see config file sample below). 
 
 ```
 ---
