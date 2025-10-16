@@ -25,7 +25,7 @@ This NRI pluging is targeted at AMD CPU's only for now.
 
 **SysFs:** This is the default. On bare metal Linux the sysFs information can be trusted.
 
-**Config Profile:** The plugin uses a config file with YAML format
+**Config Profile:** The plugin uses a config file with YAML format location ```/etc/nri/amdccx/config.yaml```. This toplogy profile is taken from the node label 
 
 ```
 ---
@@ -33,7 +33,12 @@ kind: amdNriConfig
 version: 1.00.01
 description: config file for all AMD public cloud instances (VM's). Guest OS
   topology mapping. NUMA and CCX.
+#topology source: sysfs read from sysfs, or config read from config file in /etc/nri/amdccx/config.yaml
+topologysource: config
+#node label key to search for profile; kubernetes.io/instance-type
+nodelabel: kubernetes.io/instance-type
 profiles:
+  # node label instance-type value
   azure6x:
       # NRI POD placement policy; packed (default), spreadN where N is the number CCX to use 
       Policy: packed
@@ -46,8 +51,9 @@ profiles:
         numa0: 
           ccxs:
             ccx0:
-              # cpus 0,32:1,33:...
+              # cpus 0,64:1,65:...
               cpus: 0-7,64-71
+              # cpus: 0-15  
               # or 0,1:2,3:...
             ccx1: 
               cpus: 8-15,72-79
